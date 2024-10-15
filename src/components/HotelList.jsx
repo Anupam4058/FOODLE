@@ -1,21 +1,26 @@
 import React from "react";
-import { Box, Card, CardContent, Typography } from "@mui/material";
+import { Card, CardContent, Typography, Box } from "@mui/material";
 
 const HotelList = ({ hotels }) => {
     return (
-        <Box display="flex" flexWrap="wrap" justifyContent="center" gap={2}>
-            {hotels.map((hotel) => (
-                <Card key={hotel.id} className="card">
-                    <CardContent className="card-content">
-                        <Typography variant="h6">{hotel.name}</Typography>
-                        <Typography variant="body2">
-                            Food Rating: {hotel.food_rating}
+        <Box display="flex" flexDirection="column" gap={3} alignItems="center">
+            {hotels.map((hotel, index) => (
+                <Card key={index} style={{ width: "100%", maxWidth: 600 }}>
+                    <CardContent>
+                        <Typography variant="h6" component="div">
+                            {hotel.name}
+                        </Typography>
+                        <Typography variant="body1" color="text.secondary">
+                            City: {hotel.city}
                         </Typography>
                         <Typography variant="body2">
-                            Ambiance Rating: {hotel.ambiance_rating}
+                            Food Rating: {hotel.foodRating} / 5
                         </Typography>
                         <Typography variant="body2">
-                            Cost: {hotel.cost}
+                            Ambiance Rating: {hotel.ambiance} / 5
+                        </Typography>
+                        <Typography variant="body2">
+                            Cost Efficiency: ₹{hotel.cost}
                         </Typography>
                     </CardContent>
                 </Card>
