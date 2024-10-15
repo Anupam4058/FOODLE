@@ -1,152 +1,108 @@
-const express = require('express');
-const cors = require('cors');
+const express = require("express");
+const cors = require("cors");
 
 const app = express();
 const PORT = 5000;
 
-// Middleware to parse JSON and enable CORS
 app.use(cors());
-app.use(express.json());
 
-// Expanded dummy hotel data
 const hotels = [
-    { id: 1, name: 'The Grand Central Hotel', city: 'New York', foodRating: 4.5, ambiance: 4.2, cost: 150 },
-    { id: 2, name: 'Riverside Inn', city: 'New York', foodRating: 4.0, ambiance: 4.1, cost: 120 },
-    { id: 3, name: 'Skyline Luxury Suites', city: 'New York', foodRating: 4.8, ambiance: 4.6, cost: 200 },
-    { id: 4, name: 'Maple Leaf Hotel', city: 'New York', foodRating: 3.9, ambiance: 3.8, cost: 90 },
-    { id: 5, name: 'Cityscape Boutique Hotel', city: 'New York', foodRating: 4.7, ambiance: 4.5, cost: 160 },
-    { id: 6, name: 'Pacific View Resort', city: 'Los Angeles', foodRating: 4.3, ambiance: 4.2, cost: 130 },
-    { id: 7, name: 'Sunset Bay Hotel', city: 'Los Angeles', foodRating: 4.6, ambiance: 4.3, cost: 140 },
-    { id: 8, name: 'Coastal Haven Inn', city: 'Los Angeles', foodRating: 3.5, ambiance: 3.0, cost: 70 },
-    { id: 9, name: 'Ocean Breeze Resort', city: 'Los Angeles', foodRating: 4.9, ambiance: 4.8, cost: 220 },
-    { id: 10, name: 'Hollywood Star Hotel', city: 'Los Angeles', foodRating: 4.1, ambiance: 4.0, cost: 110 },
-    { id: 11, name: 'Windy City Plaza', city: 'Chicago', foodRating: 4.4, ambiance: 4.3, cost: 180 },
-    { id: 12, name: 'Lakeview Lodge', city: 'Chicago', foodRating: 3.8, ambiance: 3.9, cost: 95 },
-    { id: 13, name: 'The Chicagoan', city: 'Chicago', foodRating: 4.2, ambiance: 4.1, cost: 150 },
-    { id: 14, name: 'Magnificent Mile Hotel', city: 'Chicago', foodRating: 4.0, ambiance: 4.0, cost: 120 },
-    { id: 15, name: 'Urban Oasis Hotel', city: 'Chicago', foodRating: 4.1, ambiance: 4.2, cost: 170 },
-    { id: 16, name: 'The Royal Palace', city: 'Miami', foodRating: 4.6, ambiance: 4.5, cost: 210 },
-    { id: 17, name: 'Sapphire Shores Resort', city: 'Miami', foodRating: 4.2, ambiance: 4.0, cost: 180 },
-    { id: 18, name: 'Oceanview Suites', city: 'Miami', foodRating: 3.9, ambiance: 3.8, cost: 100 },
-    { id: 19, name: 'Palm Tree Hotel', city: 'Miami', foodRating: 4.4, ambiance: 4.3, cost: 175 },
-    { id: 20, name: 'The Sunflower Inn', city: 'Miami', foodRating: 4.5, ambiance: 4.2, cost: 160 },
-    { id: 21, name: 'The Historic Inn', city: 'San Francisco', foodRating: 4.7, ambiance: 4.8, cost: 230 },
-    { id: 22, name: 'Bay View Lodge', city: 'San Francisco', foodRating: 4.1, ambiance: 4.0, cost: 145 },
-    { id: 23, name: 'Golden Gate Hotel', city: 'San Francisco', foodRating: 4.3, ambiance: 4.2, cost: 160 },
-    { id: 24, name: 'Seaside Retreat', city: 'San Francisco', foodRating: 4.2, ambiance: 4.1, cost: 150 },
-    { id: 25, name: 'Hillside Lodge', city: 'San Francisco', foodRating: 4.5, ambiance: 4.6, cost: 175 },
-    { id: 26, name: 'Mountain Peak Inn', city: 'Denver', foodRating: 4.0, ambiance: 4.1, cost: 130 },
-    { id: 27, name: 'The Rocky Mountain Hotel', city: 'Denver', foodRating: 4.3, ambiance: 4.4, cost: 165 },
-    { id: 28, name: 'Ski Resort Lodge', city: 'Denver', foodRating: 4.6, ambiance: 4.5, cost: 200 },
-    { id: 29, name: 'Pine Forest Retreat', city: 'Denver', foodRating: 4.1, ambiance: 4.0, cost: 110 },
-    { id: 30, name: 'Canyon View Hotel', city: 'Denver', foodRating: 4.2, ambiance: 4.3, cost: 140 },
+    { id: 1, name: 'Hotel A', city: 'New York', foodRating: 4.5, ambiance: 4.2, cost: 150 },
+    { id: 2, name: 'Hotel B', city: 'New York', foodRating: 4.0, ambiance: 4.1, cost: 120 },
+    { id: 3, name: 'Hotel C', city: 'New York', foodRating: 4.8, ambiance: 4.6, cost: 200 },
+    { id: 4, name: 'Hotel D', city: 'New York', foodRating: 3.9, ambiance: 3.8, cost: 90 },
+    { id: 5, name: 'Hotel E', city: 'New York', foodRating: 4.7, ambiance: 4.5, cost: 160 },
+    { id: 6, name: 'Hotel F', city: 'Los Angeles', foodRating: 4.3, ambiance: 4.2, cost: 130 },
+    { id: 7, name: 'Hotel G', city: 'Los Angeles', foodRating: 4.6, ambiance: 4.3, cost: 140 },
+    { id: 8, name: 'Hotel H', city: 'Los Angeles', foodRating: 3.5, ambiance: 3.0, cost: 70 },
+    { id: 9, name: 'Hotel I', city: 'Los Angeles', foodRating: 4.9, ambiance: 4.8, cost: 220 },
+    { id: 10, name: 'Hotel J', city: 'Los Angeles', foodRating: 4.1, ambiance: 4.0, cost: 110 },
+    { id: 11, name: 'Hotel K', city: 'Chicago', foodRating: 4.4, ambiance: 4.3, cost: 180 },
+    { id: 12, name: 'Hotel L', city: 'Chicago', foodRating: 3.8, ambiance: 3.9, cost: 95 },
+    { id: 13, name: 'Hotel M', city: 'Chicago', foodRating: 4.2, ambiance: 4.1, cost: 150 },
+    { id: 14, name: 'Hotel N', city: 'Chicago', foodRating: 4.0, ambiance: 4.0, cost: 120 },
+    { id: 15, name: 'Hotel O', city: 'Chicago', foodRating: 4.1, ambiance: 4.2, cost: 170 },
 ];
 
-// Sorting algorithms
-const mergeSort = (arr, key, order) => {
-    if (arr.length <= 1) return arr;
-    const mid = Math.floor(arr.length / 2);
-    const left = mergeSort(arr.slice(0, mid), key, order);
-    const right = mergeSort(arr.slice(mid), key, order);
-    return merge(left, right, key, order);
-};
-
-const merge = (left, right, key, order) => {
-    const result = [];
-    while (left.length && right.length) {
-        const compare = order === 'asc'
-            ? left[0][key] <= right[0][key]
-            : left[0][key] >= right[0][key];
-        if (compare) result.push(left.shift());
-        else result.push(right.shift());
-    }
-    return result.concat(left, right);
-};
-
-const quickSort = (arr, key, order) => {
-    if (arr.length <= 1) return arr;
-    const pivot = arr[arr.length - 1];
-    const left = [];
-    const right = [];
-    for (let i = 0; i < arr.length - 1; i++) {
-        const compare = order === 'asc'
-            ? arr[i][key] < pivot[key]
-            : arr[i][key] > pivot[key];
-        if (compare) left.push(arr[i]);
-        else right.push(arr[i]);
-    }
-    return [...quickSort(left, key, order), pivot, ...quickSort(right, key, order)];
-};
-
-const bubbleSort = (arr, key, order) => {
-    let sorted = false;
-    while (!sorted) {
-        sorted = true;
-        for (let i = 0; i < arr.length - 1; i++) {
-            const compare = order === 'asc'
-                ? arr[i][key] > arr[i + 1][key]
-                : arr[i][key] < arr[i + 1][key];
-            if (compare) {
-                [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
-                sorted = false;
-            }
-        }
-    }
-    return arr;
-};
-
-// Root route
 app.get('/', (req, res) => {
     res.send('Welcome to the Hotel Sorting API');
 });
 
 
-// Route to get hotels based on filters
-app.get('/hotels', (req, res) => {
-    const { city, foodRating, ambiance, cost, sortAlgorithm } = req.query;
-
-    let filteredHotels = hotels;
-
-    // Apply city filter
-    if (city) {
-        filteredHotels = filteredHotels.filter(hotel => hotel.city.toLowerCase() === city.toLowerCase());
+// Bubble sort
+function bubbleSort(array, key, ascending = true) {
+    let len = array.length;
+    for (let i = 0; i < len; i++) {
+        for (let j = 0; j < len - i - 1; j++) {
+            if (ascending ? array[j][key] > array[j + 1][key] : array[j][key] < array[j + 1][key]) {
+                [array[j], array[j + 1]] = [array[j + 1], array[j]]; // Swap
+            }
+        }
     }
+    return array;
+}
 
-    // Apply filters
-    if (foodRating) {
-        filteredHotels = filteredHotels.filter(hotel => hotel.foodRating >= 4.0);
+// Quick sort
+function quickSort(array, key, ascending = true) {
+    if (array.length <= 1) return array;
+    const pivot = array[array.length - 1];
+    const left = [];
+    const right = [];
+    for (let i = 0; i < array.length - 1; i++) {
+        if (ascending ? array[i][key] < pivot[key] : array[i][key] > pivot[key]) {
+            left.push(array[i]);
+        } else {
+            right.push(array[i]);
+        }
     }
-    if (ambiance) {
-        filteredHotels = filteredHotels.filter(hotel => hotel.ambiance >= 4.0);
-    }
-    if (cost) {
-        filteredHotels = filteredHotels.filter(hotel => hotel.cost <= 150);
-    }
+    return [...quickSort(left, key, ascending), pivot, ...quickSort(right, key, ascending)];
+}
 
-    // Sort filtered hotels based on the selected algorithm
-    const sortingKey = cost ? 'cost' : foodRating ? 'foodRating' : 'ambiance';
-    const order = cost ? 'asc' : 'desc';
+// Merge sort
+function mergeSort(array, key, ascending = true) {
+    if (array.length <= 1) return array;
 
-    switch (sortAlgorithm) {
-        case 'mergeSort':
-            filteredHotels = mergeSort(filteredHotels, sortingKey, order);
+    const middle = Math.floor(array.length / 2);
+    const left = mergeSort(array.slice(0, middle), key, ascending);
+    const right = mergeSort(array.slice(middle), key, ascending);
+
+    return merge(left, right, key, ascending);
+}
+
+function merge(left, right, key, ascending) {
+    let result = [];
+    while (left.length && right.length) {
+        if (ascending ? left[0][key] < right[0][key] : left[0][key] > right[0][key]) {
+            result.push(left.shift());
+        } else {
+            result.push(right.shift());
+        }
+    }
+    return [...result, ...left, ...right];
+}
+
+app.get("/hotels", (req, res) => {
+    const { city, filter, sortMethod } = req.query;
+    let filteredHotels = hotels.filter(hotel => hotel.city.toLowerCase() === city.toLowerCase());
+
+    // Sort hotels based on the selected sorting method and filter
+    switch (sortMethod) {
+        case "bubbleSort":
+            filteredHotels = bubbleSort(filteredHotels, filter, filter === "cost");
             break;
-        case 'quickSort':
-            filteredHotels = quickSort(filteredHotels, sortingKey, order);
+        case "quickSort":
+            filteredHotels = quickSort(filteredHotels, filter, filter === "cost");
             break;
-        case 'bubbleSort':
-            filteredHotels = bubbleSort(filteredHotels, sortingKey, order);
+        case "mergeSort":
+            filteredHotels = mergeSort(filteredHotels, filter, filter === "cost");
             break;
         default:
-            filteredHotels.sort((a, b) => {
-                return order === 'asc' ? a[sortingKey] - b[sortingKey] : b[sortingKey] - a[sortingKey];
-            });
+            break;
     }
 
-    // Limit to top 5 hotels
-    res.json(filteredHotels.slice(0, 7));
+    res.json(filteredHotels);
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
