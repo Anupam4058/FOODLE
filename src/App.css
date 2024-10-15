@@ -1,71 +1,110 @@
+/* Global styles */
 body {
   margin: 0;
-  padding: 0;
   font-family: 'Roboto', sans-serif;
-  background: linear-gradient(135deg, #232d33, #0c66d3);
-  height: 100vh;
+  background-color: #f4f4f9;
+  color: #333;
 }
 
-h1 {
-  color: white;
-  text-align: center;
-  margin-top: 20px;
-  font-size: 2.5rem;
+.app-container {
+  padding: 30px;
 }
 
-.filter-container {
+/* Hero Section */
+.hero-section {
+  background: url('https://source.unsplash.com/featured/?hotel,travel') no-repeat center center;
+  background-size: cover;
+  height: 300px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  padding: 20px;
-  background-color: rgba(255, 255, 255, 0.3);
-  border-radius: 15px;
-  backdrop-filter: blur(10px);
-  margin: 0 auto;
-  width: 90%;
+  align-items: center;
+  color: #021121;
+  text-align: center;
+  margin-bottom: 40px;
+  border-radius: 10px;
 }
 
-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
+.hero-text {
+  font-size: 3rem;
   font-weight: bold;
-  transition: background-color 0.3s ease;
 }
 
-button:hover {
-  background-color: #0056b3;
+.hero-subtext {
+  font-size: 1.5rem;
+}
+
+/* Form Container */
+.form-container {
+  padding: 20px;
+  margin-bottom: 30px;
+  background-color: #ffffff;
+  border-radius: 10px;
+}
+
+/* Buttons and Input fields */
+.MuiButton-root, .MuiTextField-root {
+  margin: 10px;
+}
+
+/* Hotel List Styling */
+.hotel-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.hotel-card {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin: 15px;
+  padding: 20px;
+  width: 300px;
+  transition: transform 0.3s ease;
+}
+
+.hotel-card:hover {
   transform: scale(1.05);
 }
 
-.MuiFormControlLabel-root, .MuiCheckbox-root {
-  color: white;
+.hotel-card img {
+  width: 100%;
+  border-radius: 10px 10px 0 0;
 }
 
-input {
-  background-color: white;
-  border-radius: 8px;
-  padding: 10px;
+.hotel-card-details {
+  padding: 15px;
 }
 
-.card {
-  width: 300px;
-  background-color: white;
-  border-radius: 10px;
-  overflow: hidden;
-  margin: 16px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease-in-out;
+.hotel-card-name {
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
-.card:hover {
-  transform: translateY(-10px);
+.hotel-card-info {
+  font-size: 1rem;
+  margin-top: 10px;
+  color: #666;
 }
 
-.card-content {
-  padding: 20px;
-  text-align: center;
+/* Hotel Filter Form Styling */
+.filter-form {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
+.MuiTextField-root {
+  width: 48%;
+}
+
+.MuiButton-root {
+  width: 100%;
+  background-color: #1976d2;
+  color: #fff;
+}
+
+.MuiButton-root:hover {
+  background-color: #1565c0;
+}

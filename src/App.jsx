@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Container, Typography } from "@mui/material";
+import { Container, Typography, Box, Paper } from "@mui/material";
 import HotelFilterForm from "./components/HotelFilterForm";
 import HotelList from "./components/HotelList";
 import axios from "axios";
+import './App.css'; // Import the updated CSS
 
 const App = () => {
     const [hotels, setHotels] = useState([]);
@@ -35,11 +36,18 @@ const App = () => {
     }, [filters]);
 
     return (
-        <Container>
-            <Typography variant="h4" gutterBottom>
-                Hotel Sorting System
-            </Typography>
-            <HotelFilterForm filters={filters} onFilterChange={handleFilterChange} setHotels={setHotels} />
+        <Container maxWidth="lg" className="app-container">
+            <Box className="hero-section">
+                <Typography variant="h3" className="hero-text">
+                    Discover the Best Hotels with Ease
+                </Typography>
+                <Typography variant="h6" className="hero-subtext">
+                    Use filters to find top-rated hotels in your city!
+                </Typography>
+            </Box>
+            <Paper elevation={3} className="form-container">
+                <HotelFilterForm filters={filters} onFilterChange={handleFilterChange} setHotels={setHotels} />
+            </Paper>
             <HotelList hotels={hotels} />
         </Container>
     );
