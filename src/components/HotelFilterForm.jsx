@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TextField, FormControlLabel, Checkbox, Box, Button, CircularProgress, Alert } from "@mui/material";
+import { TextField, FormControlLabel, Checkbox, Box, Button, CircularProgress, Alert, Select, MenuItem } from "@mui/material";
 import axios from 'axios';
 
 const HotelFilterForm = ({ filters, onFilterChange, setHotels }) => {
@@ -21,15 +21,14 @@ const HotelFilterForm = ({ filters, onFilterChange, setHotels }) => {
         setError(null);
 
         // Construct the query string
-        const query = `http://localhost:5000/hotels?city=${filters.city}&foodRating=${filters.foodRating ? 'true' : 'false'}&ambiance=${filters.ambiance ? 'true' : 'false'}&cost=${filters.cost ? 'true' : 'false'}`;
-        console.log("Query URL:", query);  // Log the complete URL being requested
-
+        const query = `http://localhost:5000/hotels?city=${filters.city}&foodRating=${filters.foodRating ? 'true' : 'false'}&ambiance=${filters.ambiance ? 'true' : 'false'}&cost=${filters.cost ? 'true' : 'false'}&sortingAlgorithm=${filters.sortingAlgorithm}`;
+        console.log("Query URL:", query);
 
         try {
             const response = await axios.get(query);
             setHotels(response.data);  // Update the hotels data
         } catch (err) {
-            console.error('Error fetching hotels:', err);  // Log error for debugging
+            console.error('Error fetching hotels:', err);
             setError('Failed to fetch hotels. Please try again.');
         } finally {
             setLoading(false);
@@ -88,6 +87,21 @@ const HotelFilterForm = ({ filters, onFilterChange, setHotels }) => {
                 }
                 label="Cost Efficiency"
             />
+
+            {/* Sorting Algorithm dropdown */}
+            <Select
+                labelId="sortingAlgorithm-label"
+                name="sortingAlgorithm"
+                value={filters.sortingAlgorithm}
+                onChange={handleInputChange}
+                variant="outlined"
+                displayEmpty
+                style={{ minWidth: 180, backgroundColor: 'white', borderRadius: 8 }}
+            >
+                <MenuItem value="mergeSort">Merge Sort</MenuItem>
+                <MenuItem value="quickSort">Quick Sort</MenuItem>
+                <MenuItem value="bubbleSort">Bubble Sort</MenuItem>
+            </Select>
 
             {/* Apply Filters button */}
             <Button variant="contained" color="primary" onClick={handleSubmit} disabled={loading}>

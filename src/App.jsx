@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Grid, Typography, Button } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import HotelFilterForm from "./components/HotelFilterForm";
 import HotelList from "./components/HotelList";
 import axios from "axios";
@@ -11,6 +11,7 @@ const App = () => {
         foodRating: false,
         ambiance: false,
         cost: false,
+        sortingAlgorithm: "mergeSort", // Default sorting algorithm
     });
 
     const handleFilterChange = (newFilters) => {
@@ -19,7 +20,7 @@ const App = () => {
 
     const fetchHotels = async () => {
         try {
-            const query = `/hotels?city=${filters.city}&foodRating=${filters.foodRating}&ambiance=${filters.ambiance}&cost=${filters.cost}`;
+            const query = `/hotels?city=${filters.city}&foodRating=${filters.foodRating}&ambiance=${filters.ambiance}&cost=${filters.cost}&sortingAlgorithm=${filters.sortingAlgorithm}`;
             const response = await axios.get(query);
             setHotels(response.data);
         } catch (error) {
@@ -39,9 +40,6 @@ const App = () => {
                 Hotel Sorting System
             </Typography>
             <HotelFilterForm filters={filters} onFilterChange={handleFilterChange} setHotels={setHotels} />
-
-            
-            
             <HotelList hotels={hotels} />
         </Container>
     );

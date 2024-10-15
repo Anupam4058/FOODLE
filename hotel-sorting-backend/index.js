@@ -27,15 +27,62 @@ const hotels = [
     { id: 15, name: 'Hotel O', city: 'Chicago', foodRating: 4.1, ambiance: 4.2, cost: 170 },
 ];
 
-// Root route
-app.get('/', (req, res) => {
-    res.send('Welcome to the Hotel Sorting API');
-});
+// Sorting algorithms
+const mergeSort = (arr, key, order) => {
+    if (arr.length <= 1) return arr;
+    const mid = Math.floor(arr.length / 2);
+    const left = mergeSort(arr.slice(0, mid), key, order);
+    const right = mergeSort(arr.slice(mid), key, order);
+    return merge(left, right, key, order);
+};
+
+const merge = (left, right, key, order) => {
+    const result = [];
+    while (left.length && right.length) {
+        const compare = order === 'asc'
+            ? left[0][key] <= right[0][key]
+            : left[0][key] >= right[0][key];
+        if (compare) result.push(left.shift());
+        else result.push(right.shift());
+    }
+    return result.concat(left, right);
+};
+
+const quickSort = (arr, key, order) => {
+    if (arr.length <= 1) return arr;
+    const pivot = arr[arr.length - 1];
+    const left = [];
+    const right = [];
+    for (let i = 0; i < arr.length - 1; i++) {
+        const compare = order === 'asc'
+            ? arr[i][key] < pivot[key]
+            : arr[i][key] > pivot[key];
+        if (compare) left.push(arr[i]);
+        else right.push(arr[i]);
+    }
+    return [...quickSort(left, key, order), pivot, ...quickSort(right, key, order)];
+};
+
+const bubbleSort = (arr, key, order) => {
+    let sorted = false;
+    while (!sorted) {
+        sorted = true;
+        for (let i = 0; i < arr.length - 1; i++) {
+            const compare = order === 'asc'
+                ? arr[i][key] > arr[i + 1][key]
+                : arr[i][key] < arr[i + 1][key];
+            if (compare) {
+                [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
+                sorted = false;
+            }
+        }
+    }
+    return arr;
+};
 
 // Route to get hotels based on filters
 app.get('/hotels', (req, res) => {
-    const { city, foodRating, ambiance, cost } = req.query;
-    console.log("Received filters:", req.query);  // Log received filters
+    const { city, foodRating, ambiance, cost, sortAlgorithm } = req.query;
 
     let filteredHotels = hotels;
 
@@ -44,28 +91,35 @@ app.get('/hotels', (req, res) => {
         filteredHotels = filteredHotels.filter(hotel => hotel.city.toLowerCase() === city.toLowerCase());
     }
 
-    // Apply food rating filter (if checked)
+    // Apply filters
     if (foodRating) {
         filteredHotels = filteredHotels.filter(hotel => hotel.foodRating >= 4.0);
     }
-
-    // Apply ambiance filter (if checked)
     if (ambiance) {
         filteredHotels = filteredHotels.filter(hotel => hotel.ambiance >= 4.0);
     }
-
-    // Apply cost efficiency filter (if checked)
     if (cost) {
         filteredHotels = filteredHotels.filter(hotel => hotel.cost <= 150);
     }
 
-    // Sort filtered hotels based on the selected criteria
-    if (cost) {
-        filteredHotels.sort((a, b) => a.cost - b.cost); // Sort by cost (ascending)
-    } else if (foodRating) {
-        filteredHotels.sort((a, b) => b.foodRating - a.foodRating); // Sort by food rating (descending)
-    } else if (ambiance) {
-        filteredHotels.sort((a, b) => b.ambiance - a.ambiance); // Sort by ambiance (descending)
+    // Sort filtered hotels based on the selected algorithm
+    const sortingKey = cost ? 'cost' : foodRating ? 'foodRating' : 'ambiance';
+    const order = cost ? 'asc' : 'desc';
+
+    switch (sortAlgorithm) {
+        case 'mergeSort':
+            filteredHotels = mergeSort(filteredHotels, sortingKey, order);
+            break;
+        case 'quickSort':
+            filteredHotels = quickSort(filteredHotels, sortingKey, order);
+            break;
+        case 'bubbleSort':
+            filteredHotels = bubbleSort(filteredHotels, sortingKey, order);
+            break;
+        default:
+            filteredHotels.sort((a, b) => {
+                return order === 'asc' ? a[sortingKey] - b[sortingKey] : b[sortingKey] - a[sortingKey];
+            });
     }
 
     // Limit to top 5 hotels
